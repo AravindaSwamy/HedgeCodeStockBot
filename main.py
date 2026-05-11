@@ -470,33 +470,24 @@ def analyze_stock(stock):
 
 print("🤖 HEDGE FUND BOT STARTED")
 
-while True:
+def run_bot():
     now = datetime.now(IST)
 
     print("⏱ Checking market conditions...")
 
-    # ✅ Market check
     if not market_open():
         print(f"🚫 Market CLOSED — {now.strftime('%H:%M:%S IST')}")
-        print("🕐 Waiting 5 mins...\n")
-        time.sleep(300)
-        continue
+        return
 
-    # ✅ Bad time check
     if not avoid_bad_times():
         print(f"⚠️ Avoiding volatile time — {now.strftime('%H:%M:%S IST')}")
-        print("📉 Skipping analysis (opening/closing volatility)")
-        print("🕐 Waiting 5 mins...\n")
-        time.sleep(300)
-        continue
+        return
 
-    # ✅ Normal execution
     print("=" * 60)
     print(f"🤖 RUNNING | {now.strftime('%H:%M')}")
     print("=" * 60)
 
     stocks = get_hedge_stocks()
-
     results = []
 
     for s in stocks:
@@ -524,5 +515,11 @@ while True:
 
         send_telegram("\n\n".join(msg))
 
-    print("✅ Done. Next run in 5 min\n")
+
+if __name__ == "__main__":
+    print("🤖 BOT TRIGGERED")
+    try:
+        run_bot()
+    except Exception as e:
+        print("ERROR:", e)
     time.sleep(300)
