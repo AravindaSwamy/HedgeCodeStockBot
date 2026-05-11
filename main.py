@@ -522,4 +522,3 @@ if __name__ == "__main__":
         run_bot()
     except Exception as e:
         print("ERROR:", e)
-    time.sleep(300)
